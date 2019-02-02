@@ -1,0 +1,28 @@
+<div class="col-md-12" style="margin-top: -30px; padding: 0 30px;">
+  <h3><%= I18n.t "shelve_it.heading", 'Container Location Assignment' %></h3>
+  <form action="<%= AppConfig[:frontend_proxy_prefix] %>plugins/shelve_it/update"
+        id="shelve_it"
+        method="post"
+        style="max-width: 50%; margin-bottom: 2em;">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="form-group">
+      <label for="container_barcode">Container barcode</label>
+      <input  type="text"
+              class="form-control"
+              id="container_barcode"
+              name="container_barcode"
+              placeholder="Enter container barcode"
+              autofocus>
+    </div>
+    <div class="form-group">
+      <label for="location_barcode">Location barcode</label>
+      <input  type="text"
+              class="form-control"
+              id="location_barcode"
+              name="location_barcode"
+              placeholder="Enter location barcode">
+      <small class="form-text text-muted">The container will be assigned to the location with this barcode.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
