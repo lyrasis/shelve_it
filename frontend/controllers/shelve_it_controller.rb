@@ -1,8 +1,13 @@
 class ShelveItController < ApplicationController
 
-  set_access_control  "update_container_record" => [:update],
-                      "update_location_record"  => [:update],
-                      "view_repository"         => [:update]
+  set_access_control  "update_container_record" => [:index, :update],
+                      "update_location_record"  => [:index, :update],
+                      "view_repository"         => [:index, :update]
+
+  def index
+    # TODO (gather data for dash)
+    @shelving_assignments = lookup_shelving_assignments
+  end
 
   def update
     container_barcode = params[:container_barcode]
@@ -18,8 +23,18 @@ class ShelveItController < ApplicationController
       flash[:error] = "Error, check barcodes exist! #{bad}"
     end
 
-    redirect_to controller: :welcome, action: :index
+    redirect_to controller: :shelve_it, action: :index, location_barcode: location_barcode
   end
+
+  def container_uri(id)
+    "/top_containers/#{id}"
+  end
+  helper_method :container_uri
+
+  def location_uri(id)
+    "/locations/#{id}"
+  end
+  helper_method :location_uri
 
   private
 
@@ -32,6 +47,12 @@ class ShelveItController < ApplicationController
   def location_by_barcode(barcode)
     path = "/locations/barcodes/#{barcode}"
     JSONModel::HTTP.get_json(path)
+  end
+
+  def lookup_shelving_assignments(limit: 3)
+    repo_id = session[:repo_id]
+    path    = "/repositories/#{repo_id}/shelve_it/assignments"
+    JSONModel::HTTP.get_json(path, { limit: limit })
   end
 
   def shelve_it(data)
