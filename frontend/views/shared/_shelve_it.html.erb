@@ -1,28 +1,65 @@
-<div class="col-md-12" style="margin-top: -30px; padding: 0 30px;">
-  <h3><%= I18n.t "shelve_it.heading", 'Container Location Assignment' %></h3>
-  <form action="<%= AppConfig[:frontend_proxy_prefix] %>plugins/shelve_it/update"
-        id="shelve_it"
-        method="post"
-        style="max-width: 50%; margin-bottom: 2em;">
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-    <div class="form-group">
-      <label for="container_barcode">Container barcode</label>
-      <input  type="text"
-              class="form-control"
-              id="container_barcode"
-              name="container_barcode"
-              placeholder="Enter container barcode"
-              autofocus>
-    </div>
-    <div class="form-group">
-      <label for="location_barcode">Location barcode</label>
-      <input  type="text"
-              class="form-control"
-              id="location_barcode"
-              name="location_barcode"
-              placeholder="Enter location barcode">
-      <small class="form-text text-muted">The container will be assigned to the location with this barcode.</small>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+<div class="col-md-12" style="margin-top: -2em;">
+  <div class="col-md-6">
+    <h3><%= I18n.t "shelve_it.heading", 'Container Location Assignment' %></h3>
+    <form action="<%= AppConfig[:frontend_proxy_prefix] %>plugins/shelve_it/update"
+          id="shelve_it"
+          method="post"
+          style="max-width: 80%; margin-bottom: 2em;">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <div class="form-group">
+        <label for="container_barcode">Container barcode</label>
+        <input  type="text"
+                class="form-control"
+                id="container_barcode"
+                name="container_barcode"
+                placeholder="Enter container barcode"
+                required
+                autofocus>
+      </div>
+      <div class="form-group">
+        <label for="location_barcode">Location barcode</label>
+        <input  type="text"
+                class="form-control"
+                id="location_barcode"
+                name="location_barcode"
+                placeholder="Enter location barcode"
+                required>
+        <small class="form-text text-muted">The container will be assigned to the location with this barcode.</small>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <h3><%= I18n.t "shelve_it.heading", 'Recent Assignments' %></h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Container</th>
+          <th scope="col">Location</th>
+          <th scope="col">Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>123</td>
+          <td>456</td>
+          <td>01/01/2019</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>789</td>
+          <td>321</td>
+          <td>12/01/2018</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>654</td>
+          <td>987</td>
+          <td>11/01/2018</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
