@@ -1,11 +1,11 @@
 class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/locations/barcodes/:barcode')
-    .description("Get a Location by barcode")
-    .params(["barcode", String],
-            ["resolve", :resolve])
+    .description('Get a Location by barcode')
+    .params(['barcode', String],
+            ['resolve', :resolve])
     .permissions([])
-    .returns([200, "(:location)"]) \
+    .returns([200, '(:location)']) \
   do
     # location = Location.for_barcode(params[:barcode])
     location = location_barcode(params[:barcode])
@@ -15,29 +15,29 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/repositories/:repo_id/shelve_it/assignments')
-    .description("Get recent container location assignments")
+    .description('Get recent container location assignments')
     .params(
-      ["repo_id", :repo_id],
+      ['repo_id', :repo_id],
       [
-        "limit",
+        'limit',
         Integer,
         'Limit number of records returned',
-        :optional => true,
-        :default => 3,
+        optional: true,
+        default: 3,
       ])
-    .permissions([])
-    .returns([200, "(:array)"]) \
+    .permissions([:view_repository])
+    .returns([200, '(:array)']) \
   do
     json_response(shelve_it_assignments(limit: params[:limit]))
   end
 
   Endpoint.get('/repositories/:repo_id/top_containers/barcodes/:barcode')
-    .description("Get a top container by barcode")
-    .params(["barcode", String],
-            ["repo_id", :repo_id],
-            ["resolve", :resolve])
-    .permissions([])
-    .returns([200, "(:top_container)"]) \
+    .description('Get a top container by barcode')
+    .params(['barcode', String],
+            ['repo_id', :repo_id],
+            ['resolve', :resolve])
+    .permissions([:view_repository])
+    .returns([200, '(:top_container)']) \
   do
     container = TopContainer.for_barcode(params[:barcode])
     id        = container.nil? ? -1 : container.id
@@ -49,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   # TODO: add to model
   def location_barcode(barcode)
-    Location[:barcode => barcode]
+    Location[barcode: barcode]
   end
 
   def shelve_it_assignments(limit: 3)
