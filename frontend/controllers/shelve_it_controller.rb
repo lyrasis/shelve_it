@@ -27,12 +27,12 @@ class ShelveItController < ApplicationController
   end
 
   def container_uri(id)
-    "/top_containers/#{id}"
+    "#{AppConfig[:frontend_proxy_prefix]}/top_containers/#{id}".squeeze('/')
   end
   helper_method :container_uri
 
   def location_uri(id)
-    "/locations/#{id}"
+    "#{AppConfig[:frontend_proxy_prefix]}/locations/#{id}".squeeze('/')
   end
   helper_method :location_uri
 
