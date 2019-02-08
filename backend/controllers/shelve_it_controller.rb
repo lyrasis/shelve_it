@@ -1,6 +1,6 @@
 class ArchivesSpaceService < Sinatra::Base
 
-  Endpoint.get('/locations/barcodes/:barcode')
+  Endpoint.get('/locations/by_barcode/:barcode')
     .description('Get a Location by barcode')
     .params(['barcode', String],
             ['resolve', :resolve])
@@ -11,6 +11,19 @@ class ArchivesSpaceService < Sinatra::Base
     location = location_barcode(params[:barcode])
     id       = location.nil? ? -1 : location.id
     json     = Location.to_jsonmodel(id)
+    json_response(resolve_references(json, params[:resolve]))
+  end
+
+  Endpoint.get('/repositories/by_repo_code/:repo_code')
+    .description('Get a repository by repo_code')
+    .params(['repo_code', String],
+            ['resolve', :resolve])
+    .permissions([:view_repository])
+    .returns([200, '(:repository)']) \
+  do
+    repository = repository_repo_code(params[:repo_code])
+    id         = repository.nil? ? -1 : repository.id
+    json       = Repository.to_jsonmodel(id)
     json_response(resolve_references(json, params[:resolve]))
   end
 
@@ -31,7 +44,7 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(shelve_it_assignments(limit: params[:limit]))
   end
 
-  Endpoint.get('/repositories/:repo_id/top_containers/barcodes/:barcode')
+  Endpoint.get('/repositories/:repo_id/top_containers/by_barcode/:barcode')
     .description('Get a top container by barcode')
     .params(['barcode', String],
             ['repo_id', :repo_id],
@@ -47,9 +60,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   private
 
-  # TODO: add to model
   def location_barcode(barcode)
     Location[barcode: barcode]
+  end
+
+  def repository_repo_code(repo_code)
+    Repository[repo_code: repo_code]
   end
 
   def shelve_it_assignments(limit: 3)
