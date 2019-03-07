@@ -18,7 +18,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description('Get a repository by repo_code')
     .params(['repo_code', String],
             ['resolve', :resolve])
-    .permissions([:view_repository])
+    .permissions([])
     .returns([200, '(:repository)']) \
   do
     repository = repository_repo_code(params[:repo_code])
