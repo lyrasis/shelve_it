@@ -25,9 +25,16 @@
                   id="location_barcode"
                   name="location_barcode"
                   placeholder="Enter location barcode"
-                  <% if params['location_barcode'] %>value="<%= params['location_barcode'] %>"<% end %>
+                  <% if params['location_barcode'] && params['persist_location'] %>value="<%= params['location_barcode'] %>"<% end %>
                   required>
           <small class="form-text text-muted">The container will be assigned to the location with this barcode.</small>
+        </div>
+        <div class="form-group">
+          <label for="persist_location">Persist location?</label>
+          <input  name="persist_location"
+                  id="persist_location"
+                  type="checkbox"
+                  <% if params['persist_location'] %>checked<% end %>>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

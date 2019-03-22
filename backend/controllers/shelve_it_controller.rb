@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
         Integer,
         'Limit number of records returned',
         optional: true,
-        default: 3,
+        default: 10,
       ])
     .permissions([:view_repository])
     .returns([200, '(:array)']) \
@@ -68,7 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
     Repository[repo_code: repo_code]
   end
 
-  def shelve_it_assignments(limit: 3)
+  def shelve_it_assignments(limit: 10)
     result = []
     DB.open do |db|
       result += db[:location]
