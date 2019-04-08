@@ -91,6 +91,7 @@ class ArchivesSpaceService < Sinatra::Base
           Sequel.as(:top_container_housed_at_rlshp__user_mtime, :updated_at),
           Sequel.as(:top_container__id, :top_container_id),
         )
+        .exclude(top_container__barcode: nil)
         .all
     end
     result
