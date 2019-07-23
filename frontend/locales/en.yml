@@ -1,4 +1,7 @@
 en:
+  group:
+    permission_types:
+      shelve_it_assignment: access shelving assignments
   plugins:
     shelve_it:
       label: Shelving Assignment

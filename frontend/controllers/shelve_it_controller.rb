@@ -1,7 +1,7 @@
 class ShelveItController < ApplicationController
 
   set_access_control  "update_container_record" => [:index, :update],
-                      "update_location_record"  => [:index, :update],
+                      "shelve_it_assignment"    => [:index, :update],
                       "view_repository"         => [:index, :update]
 
   def index
