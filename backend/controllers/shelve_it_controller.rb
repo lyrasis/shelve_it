@@ -80,7 +80,7 @@ class ArchivesSpaceService < Sinatra::Base
           :top_container,
           :top_container__id => :top_container_housed_at_rlshp__top_container_id
         )
-        .order(Sequel.desc(:top_container_housed_at_rlshp__user_mtime))
+        .order(Sequel.desc(:top_container_housed_at_rlshp__start_date))
         .limit(limit)
         .select(
           Sequel.as(:location__barcode, :location_barcode),
