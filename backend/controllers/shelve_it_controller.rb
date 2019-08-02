@@ -88,6 +88,7 @@ class ArchivesSpaceService < Sinatra::Base
           Sequel.as(:location__title, :location_title),
           Sequel.as(:top_container__barcode, :top_container_barcode),
           Sequel.as(:top_container_housed_at_rlshp__status, :status),
+          Sequel.as(:top_container_housed_at_rlshp__last_modified_by, :updated_by),
           Sequel.as(:top_container_housed_at_rlshp__user_mtime, :updated_at),
           Sequel.as(:top_container__id, :top_container_id),
         )
