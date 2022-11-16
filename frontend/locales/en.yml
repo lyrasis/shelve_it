@@ -4,4 +4,5 @@ en:
       shelve_it_assignment: access shelving assignments
   plugins:
     shelve_it:
+      disclaimer: "Note: container and location updates are not currently exclusive to shelving assignments"
       label: Shelving Assignment

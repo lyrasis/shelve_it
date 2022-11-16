@@ -1,11 +1,9 @@
 class ShelveItController < ApplicationController
-
-  set_access_control  "update_container_record" => [:index, :update],
-                      "shelve_it_assignment"    => [:index, :update],
-                      "view_repository"         => [:index, :update]
+  set_access_control  'update_container_record' => %i[index update],
+                      'shelve_it_assignment' => %i[index update],
+                      'view_repository' => %i[index update]
 
   def index
-    # TODO (gather data for dash)
     @shelving_assignments = lookup_shelving_assignments
   end
 
@@ -14,20 +12,24 @@ class ShelveItController < ApplicationController
     location_barcode  = params[:location_barcode]
     persist_location  = params[:persist_location]
 
-    container = container_by_barcode(container_barcode)
-    location  = location_by_barcode(location_barcode)
-
-    if container && location
-      shelve_it(container['uri'] => location['uri'])
-    else
-      bad = [container_barcode.strip, location_barcode.strip].compact.join(',')
-      flash[:error] = "Error, check barcodes exist! #{bad}"
+    begin
+      container = container_by_barcode(container_barcode)
+    rescue RecordNotFound
+      flash[:error] = "Container barcode not found: #{container_barcode}"
     end
 
+    begin
+      location = location_by_barcode(location_barcode) if container
+    rescue RecordNotFound
+      flash[:error] = "Location barcode not found: #{location_barcode}"
+    end
+
+    shelve_it(container['uri'] => location['uri']) if container && location
+
     redirect_to controller: :shelve_it,
-      action: :index,
-      location_barcode: location_barcode,
-      persist_location: persist_location
+                action: :index,
+                location_barcode: location_barcode,
+                persist_location: persist_location
   end
 
   def container_uri(id)
@@ -61,12 +63,10 @@ class ShelveItController < ApplicationController
 
   def shelve_it(data)
     response = shelve_it_request(shelve_it_uri, data)
-    result   = ASUtils.json_parse(response.body) rescue nil
-
     if response.code =~ /^(4|5)/
       flash[:error]  = response.message
     else
-      flash[:success] = "Ok!"
+      flash[:success] = 'Ok!'
     end
   end
 
@@ -79,5 +79,4 @@ class ShelveItController < ApplicationController
     update_path = 'top_containers/bulk/locations'
     "#{JSONModel::HTTP.backend_url}/repositories/#{repo_id}/#{update_path}"
   end
-
 end

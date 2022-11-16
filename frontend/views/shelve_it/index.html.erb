@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <%= render_aspace_partial :partial => "shared/flash_messages" %>
     <div class="col-md-4">
-      <h3><%= I18n.t "shelve_it.heading", 'Container Location Shelving Assignment' %></h3>
+      <h3><%= I18n.t "plugins.shelve_it.heading", 'Container Location Shelving Assignment' %></h3>
       <form action="<%= AppConfig[:frontend_proxy_prefix] %>plugins/shelve_it/update"
             id="shelve_it"
             method="post"
@@ -40,25 +40,30 @@
       </form>
     </div>
     <div class="col-md-8">
-      <h3><%= I18n.t "shelve_it.heading", 'Recent Shelving Assignments' %></h3>
+      <h3><%= I18n.t "plugins.shelve_it.heading", 'Recent Container / Location updates' %></h3>
       <table class="table">
+        <caption>
+          <%= I18n.t "plugins.shelve_it.disclaimer" %>
+        </caption>
         <thead>
           <tr>
             <th scope="col">Container</th>
             <th scope="col">Location</th>
+            <th scope="col">Status</th>
             <th scope="col">Updated</th>
             <th scope="col">By</th>
-            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
           <% @shelving_assignments.each do |assigned| %>
             <tr>
               <td><a href="<%= container_uri(assigned["top_container_id"]) %>"><%= assigned["top_container_barcode"] %></a></td>
-              <td><a href="<%= location_uri(assigned["location_id"]) %>"><%= assigned["location_title"] %></a></td>
+              <td title="<%= assigned["location_title"] %>">
+                <a href="<%= location_uri(assigned["location_id"]) %>"><%= assigned["location_barcode"] %></a>
+              </td>
+              <td><%= assigned["status"] %></td>
               <td><%= assigned["updated_at"] %></td>
               <td><%= assigned["updated_by"] %></td>
-              <td><%= assigned["status"] %></td>
             </tr>
           <% end %>
         </tbody>
