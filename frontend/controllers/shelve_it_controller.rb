@@ -47,12 +47,12 @@ class ShelveItController < ApplicationController
   def container_by_barcode(barcode)
     repo_id = session[:repo_id]
     path    = "/repositories/#{repo_id}/top_containers/by_barcode/#{barcode}"
-    JSONModel::HTTP.get_json(URI.encode(path))
+    JSONModel::HTTP.get_json(path)
   end
 
   def location_by_barcode(barcode)
     path = "/locations/by_barcode/#{barcode}"
-    JSONModel::HTTP.get_json(URI.encode(path))
+    JSONModel::HTTP.get_json(path)
   end
 
   def lookup_shelving_assignments(limit: 10)
