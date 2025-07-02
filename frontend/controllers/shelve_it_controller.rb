@@ -50,10 +50,10 @@ class ShelveItController < ApplicationController
     JSONModel::HTTP.get_json(path)
   end
 
-  require 'uri'
+  require 'erb' # add at the top if not already present
 
   def location_by_barcode(barcode)
-    encoded = URI.encode_www_form_component(barcode)
+    encoded = ERB::Util.url_encode(barcode)
     path = "/locations/by_barcode/#{encoded}"
     JSONModel::HTTP.get_json(path)
   end
